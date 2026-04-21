@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,15 +17,15 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI choice3Text;
 
     [Header("Settings")]
-    public float textSpeed = 0.05f;
+    public float textSpeed = 0.03f;
 
     private int currentLine = 0;
     private bool isTyping = false;
     private bool waitingForChoice = false;
 
     private string[] lines = {
-        "Okay… new city, new life, new me.",
-        "No parents. No rules. Just… university.",
+        "Okay... new city, new life, new me.",
+        "No parents. No rules. Just... university.",
         "Have you unpacked? Don't forget why you're there. Focus on your studies!",
         "CHOICE_1"
     };
@@ -38,6 +39,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("DialogueManager Started!");
         choicePanel.SetActive(false);
         nextArrow.SetActive(false);
         ShowLine();
@@ -47,8 +49,9 @@ public class DialogueManager : MonoBehaviour
     {
         if (waitingForChoice) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
+            Debug.Log("Click detected!");
             if (isTyping)
             {
                 StopAllCoroutines();
@@ -99,7 +102,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            dialogueText.text = "— End of Scene —";
+            dialogueText.text = "--- End of Scene ---";
             nextArrow.SetActive(false);
         }
     }
@@ -111,8 +114,8 @@ public class DialogueManager : MonoBehaviour
         choicePanel.SetActive(true);
         nameText.text = "";
         dialogueText.text = "What do you reply to Mom?";
-        choice1Text.text = "\"I know, Mom.\"";
-        choice2Text.text = "\"I'll be fine.\"";
+        choice1Text.text = "I know, Mom.";
+        choice2Text.text = "I'll be fine.";
         choice3Text.text = "Ignore message";
     }
 
@@ -143,7 +146,7 @@ public class DialogueManager : MonoBehaviour
             ShowLine();
         else
         {
-            dialogueText.text = "— End of Scene —";
+            dialogueText.text = "--- End of Scene ---";
             nextArrow.SetActive(false);
         }
     }

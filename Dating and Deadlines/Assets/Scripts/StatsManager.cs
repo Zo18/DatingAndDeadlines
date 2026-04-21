@@ -57,11 +57,10 @@ public class StatsManager : MonoBehaviour
     void UpdateUI()
     {
         if (academicsText != null)
-            academicsText.text = "📚 Academics: " + academics;
+            academicsText.text = "Academics: " + academics;
         if (socialText != null)
-            socialText.text = "👥 Social: " + social;
+            socialText.text = "Social: " + social;
         if (loveText != null)
-            loveText.text = "💕 Love: " + love;
+            loveText.text = "Love: " + love;
     }
 }
-
