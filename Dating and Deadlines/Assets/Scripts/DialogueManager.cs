@@ -31,8 +31,8 @@ public class DialogueManager : MonoBehaviour
     };
 
     private string[] speakers = {
-        "MC (thinking)",
-        "MC (thinking)",
+        "Sarah (Thinking)",
+        "Sarah (Thinking)",
         "Mom (text)",
         ""
     };
