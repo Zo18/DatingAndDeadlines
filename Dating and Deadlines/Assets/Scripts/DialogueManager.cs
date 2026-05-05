@@ -28,7 +28,6 @@ public class DialogueManager : MonoBehaviour
     [Header("Settings")]
     public float textSpeed = 0.03f;
 
-    // Sarah/MC left layout
     private float mc_NB_Left = 5.734863f;
     private float mc_NB_Top = 2.77824f;
     private float mc_NB_Right = 1535.739f;
@@ -39,7 +38,6 @@ public class DialogueManager : MonoBehaviour
     private float mc_DB_Right = 39.97833f;
     private float mc_DB_Bottom = 24.3934f;
 
-    // Other characters right layout
     private float other_NB_Left = 1541.477f;
     private float other_NB_Top = -0.0001487773f;
     private float other_NB_Right = -0.003051758f;
@@ -55,12 +53,10 @@ public class DialogueManager : MonoBehaviour
     private bool waitingForChoice = false;
 
     private string[] lines = {
-        // SCENE 1 - Dorm Room
         "Okay... new city, new life, new me.",
         "No parents. No rules. Just... university.",
         "Have you unpacked? Don't forget why you're there. Focus on your studies!",
         "CHOICE_1",
-        // Chloe enters
         "CHLOE_ENTER",
         "You look new.",
         "Is it that obvious?",
@@ -72,12 +68,10 @@ public class DialogueManager : MonoBehaviour
     };
 
     private string[] speakers = {
-        // SCENE 1
         "Sarah (Thinking)",
         "Sarah (Thinking)",
         "Mom (Text)",
         "",
-        // Chloe enters
         "",
         "Chloe",
         "Sarah",
@@ -131,7 +125,6 @@ public class DialogueManager : MonoBehaviour
         }
         if (lines[currentLine] == "CHLOE_ENTER")
         {
-            // Simply make Chloe visible where she is in the scene
             characterRight.gameObject.SetActive(true);
             currentLine++;
             ShowLine();
@@ -150,7 +143,6 @@ public class DialogueManager : MonoBehaviour
         nameText.text = speaker;
         dialogueText.text = "";
 
-        // Switch layout based on speaker
         if (speaker == "Sarah" || speaker == "Sarah (Thinking)" ||
             speaker == "Mom (Text)" || speaker == "")
         {
