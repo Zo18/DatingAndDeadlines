@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 593cc26027063664b8f66189cbb86f95
+guid: 8db56267a35fb0a429d2ae5132cedf6e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1698640580400509492
-    second: 2026-13.kra bad girl.jpg_0
-  - first:
-      213: -8326773195838485663
-    second: 2026-13.kra bad girl.jpg_1
-  - first:
-      213: -2550862100775454586
-    second: 2026-13.kra bad girl.jpg_2
+      213: 4011195106517261969
+    second: MainMenuButton 2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 2026-13.kra bad girl.jpg_0
+      name: MainMenuButton 2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 9789
-        width: 36
-        height: 113
+        x: 721
+        y: 463
+        width: 458
+        height: 143
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,52 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ccd0a2454673d68e0800000000000000
-      internalID: -1698640580400509492
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 2026-13.kra bad girl.jpg_1
-      rect:
-        serializedVersion: 2
-        x: 3243
-        y: 8198
-        width: 270
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 16b8dc045eb517c80800000000000000
-      internalID: -8326773195838485663
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 2026-13.kra bad girl.jpg_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 6943
-        height: 8174
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 688b5443f64899cd0800000000000000
-      internalID: -2550862100775454586
+      spriteID: 19e1fb872b0aaa730800000000000000
+      internalID: 4011195106517261969
       vertices: []
       indices: 
       edges: []
@@ -185,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      2026-13.kra bad girl.jpg_0: -1698640580400509492
-      2026-13.kra bad girl.jpg_1: -8326773195838485663
-      2026-13.kra bad girl.jpg_2: -2550862100775454586
+      MainMenuButton 2_0: 4011195106517261969
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

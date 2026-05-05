@@ -21,8 +21,34 @@ public class DialogueManager : MonoBehaviour
     public Image characterLeft;
     public Image characterRight;
 
+    [Header("Name and Dialogue Box")]
+    public RectTransform nameBox;
+    public RectTransform dialogueBox;
+
     [Header("Settings")]
     public float textSpeed = 0.03f;
+
+    // Sarah/MC left layout
+    private float mc_NB_Left = 5.734863f;
+    private float mc_NB_Top = 2.77824f;
+    private float mc_NB_Right = 1535.739f;
+    private float mc_NB_Bottom = 86.83746f;
+
+    private float mc_DB_Left = 368.3978f;
+    private float mc_DB_Top = 24.3934f;
+    private float mc_DB_Right = 39.97833f;
+    private float mc_DB_Bottom = 24.3934f;
+
+    // Other characters right layout
+    private float other_NB_Left = 1541.477f;
+    private float other_NB_Top = -0.0001487773f;
+    private float other_NB_Right = -0.003051758f;
+    private float other_NB_Bottom = 89.61584f;
+
+    private float other_DB_Left = 44.18805f;
+    private float other_DB_Top = 24.3934f;
+    private float other_DB_Right = 364.188f;
+    private float other_DB_Bottom = 24.3934f;
 
     private int currentLine = 0;
     private bool isTyping = false;
@@ -34,7 +60,7 @@ public class DialogueManager : MonoBehaviour
         "No parents. No rules. Just... university.",
         "Have you unpacked? Don't forget why you're there. Focus on your studies!",
         "CHOICE_1",
-        // SCENE 2 - Chloe enters
+        // Chloe enters
         "CHLOE_ENTER",
         "You look new.",
         "Is it that obvious?",
@@ -49,9 +75,9 @@ public class DialogueManager : MonoBehaviour
         // SCENE 1
         "Sarah (Thinking)",
         "Sarah (Thinking)",
-        "Mom (text)",
+        "Mom (Text)",
         "",
-        // SCENE 2
+        // Chloe enters
         "",
         "Chloe",
         "Sarah",
@@ -105,13 +131,8 @@ public class DialogueManager : MonoBehaviour
         }
         if (lines[currentLine] == "CHLOE_ENTER")
         {
-            // Show Chloe sliding in from right and stopping in the middle
+            // Simply make Chloe visible where she is in the scene
             characterRight.gameObject.SetActive(true);
-            StartCoroutine(SlideInCharacter(
-                characterRight.rectTransform,
-                1500f,  // starts off screen to the right
-                0f      // stops in the middle of the screen
-            ));
             currentLine++;
             ShowLine();
             return;
@@ -124,8 +145,21 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
         nextArrow.SetActive(false);
-        nameText.text = speakers[currentLine];
+
+        string speaker = speakers[currentLine];
+        nameText.text = speaker;
         dialogueText.text = "";
+
+        // Switch layout based on speaker
+        if (speaker == "Sarah" || speaker == "Sarah (Thinking)" ||
+            speaker == "Mom (Text)" || speaker == "")
+        {
+            SetMCLayout();
+        }
+        else
+        {
+            SetOtherLayout();
+        }
 
         foreach (char letter in lines[currentLine].ToCharArray())
         {
@@ -151,22 +185,22 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator SlideInCharacter(RectTransform character, float startX, float endX)
+    void SetMCLayout()
     {
-        Vector2 startPos = new Vector2(startX, character.anchoredPosition.y);
-        Vector2 endPos = new Vector2(endX, character.anchoredPosition.y);
-        float elapsedTime = 0f;
-        float duration = 0.5f;
+        nameBox.offsetMin = new Vector2(mc_NB_Left, mc_NB_Bottom);
+        nameBox.offsetMax = new Vector2(-mc_NB_Right, -mc_NB_Top);
 
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration;
-            character.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
-            yield return null;
-        }
+        dialogueBox.offsetMin = new Vector2(mc_DB_Left, mc_DB_Bottom);
+        dialogueBox.offsetMax = new Vector2(-mc_DB_Right, -mc_DB_Top);
+    }
 
-        character.anchoredPosition = endPos;
+    void SetOtherLayout()
+    {
+        nameBox.offsetMin = new Vector2(other_NB_Left, other_NB_Bottom);
+        nameBox.offsetMax = new Vector2(-other_NB_Right, -other_NB_Top);
+
+        dialogueBox.offsetMin = new Vector2(other_DB_Left, other_DB_Bottom);
+        dialogueBox.offsetMax = new Vector2(-other_DB_Right, -other_DB_Top);
     }
 
     void ShowChoice1()
