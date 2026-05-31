@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: a8530a40843f3f14fa91da4b8ab07dc9
+guid: 21c278ac310bb55438f68b23b584025b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7005202488467540957
-    second: BadGirCharactersprite_0
-  - first:
-      213: 1919499013980558851
-    second: BadGirCharactersprite_1
-  - first:
-      213: 123469258162586992
-    second: BadGirCharactersprite_2
+      213: -6212653562262136176
+    second: PartyBackground_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,57 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BadGirCharactersprite_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 9789
-        width: 36
-        height: 113
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 324b53fa37588ce90800000000000000
-      internalID: -7005202488467540957
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BadGirCharactersprite_1
-      rect:
-        serializedVersion: 2
-        x: 3243
-        y: 8198
-        width: 270
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 306160bee2e63aa10800000000000000
-      internalID: 1919499013980558851
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BadGirCharactersprite_2
+      name: PartyBackground_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 6943
-        height: 8174
+        width: 7016
+        height: 4961
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0754679d2a6a6b100800000000000000
-      internalID: 123469258162586992
+      spriteID: 09adccc408838c9a0800000000000000
+      internalID: -6212653562262136176
       vertices: []
       indices: 
       edges: []
@@ -185,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BadGirCharactersprite_0: -7005202488467540957
-      BadGirCharactersprite_1: 1919499013980558851
-      BadGirCharactersprite_2: 123469258162586992
+      PartyBackground_0: -6212653562262136176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
