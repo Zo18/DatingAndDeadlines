@@ -1,2 +1,27 @@
 fileFormatVersion: 2
 guid: b36c66316b664224ca3f4e59025ef56c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dialogueText: {instanceID: 0}
+  - nameText: {instanceID: 0}
+  - nextArrow: {instanceID: 0}
+  - choicePanel: {instanceID: 0}
+  - choice1Text: {instanceID: 0}
+  - choice2Text: {instanceID: 0}
+  - choice3Text: {instanceID: 0}
+  - characterLeft: {instanceID: 0}
+  - characterRight: {instanceID: 0}
+  - characterRight2: {instanceID: 0}
+  - chloeSprite: {fileID: 7616556368353287927, guid: 2c7f0416bb9f3f0499c607a3de8eb915, type: 3}
+  - mayaSprite: {instanceID: 0}
+  - deanSprite: {instanceID: 0}
+  - gregSprite: {instanceID: 0}
+  - nameBox: {instanceID: 0}
+  - dialogueBox: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

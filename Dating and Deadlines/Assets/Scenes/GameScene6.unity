@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 232504805}
   - component: {fileID: 232504804}
   m_Layer: 5
-  m_Name: ChloeSprite
+  m_Name: CharacterRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 376, y: -55.074}
+  m_AnchoredPosition: {x: 775.52, y: -55.074}
   m_SizeDelta: {x: 339.7247, y: 448.6906}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &232504804
@@ -620,7 +620,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274825070}
   m_CullTransparentMesh: 1
---- !u!1 &395603469
+--- !u!1 &343119368
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -628,24 +628,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 395603470}
+  - component: {fileID: 343119370}
+  - component: {fileID: 343119369}
   m_Layer: 0
-  m_Name: StatsManager_Scene6
+  m_Name: StatsCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &395603470
+--- !u!114 &343119369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343119368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b178daa9e159b8848b1e2b65f1d5ad1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatsManager
+  academics: 5
+  social: 5
+  love: 5
+  academicsText: {fileID: 274825072}
+  socialText: {fileID: 181057469}
+  loveText: {fileID: 891549562}
+--- !u!4 &343119370
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 395603469}
+  m_GameObject: {fileID: 343119368}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 521.2281, y: 273.48187, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 639.1984, y: 242.96191, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -680,20 +699,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36c66316b664224ca3f4e59025ef56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scene6Party
-  speakerNameText: {fileID: 943590918}
   dialogueText: {fileID: 1659678130}
-  dialoguePanel: {fileID: 1598686437}
-  continueButton: {fileID: 0}
+  nameText: {fileID: 943590918}
+  nextArrow: {fileID: 1741744218}
   choicePanel: {fileID: 797283740}
-  choiceButton1: {fileID: 994495561}
-  choiceButton2: {fileID: 1188446500}
-  choiceButton3: {fileID: 785219146}
   choice1Text: {fileID: 2117915384}
   choice2Text: {fileID: 1174148470}
   choice3Text: {fileID: 1608315337}
-  thinkingText: {fileID: 0}
+  characterLeft: {fileID: 1431450601}
+  characterRight: {fileID: 232504804}
+  characterRight2: {fileID: 1695095108}
+  chloeSprite: {fileID: -1232359267594544834, guid: c6c3ee85a114a3d448ee63add4d065c0, type: 3}
+  mayaSprite: {fileID: 7616556368353287927, guid: 2c7f0416bb9f3f0499c607a3de8eb915, type: 3}
+  deanSprite: {fileID: -8782259705405527966, guid: 2820f6d9f102ecf4db6844ae78ddacf3, type: 3}
+  gregSprite: {fileID: 848618471336686696, guid: 67fc24e1b2d6d524a9ca5b53ac76ba87, type: 3}
+  slideStartOffset: 800
+  slideDuration: 0.5
+  nameBox: {fileID: 1489806178}
+  dialogueBox: {fileID: 183575242}
+  textSpeed: 0.03
   deanThreshold: 3
   gregThreshold: 3
+  endSceneName: MainMenu
 --- !u!4 &440493411
 Transform:
   m_ObjectHideFlags: 0
@@ -807,8 +834,6 @@ RectTransform:
   - {fileID: 1943170167}
   - {fileID: 797283743}
   - {fileID: 1598686438}
-  - {fileID: 1120325655}
-  - {fileID: 1472718419}
   - {fileID: 1431450600}
   - {fileID: 232504803}
   - {fileID: 1695095107}
@@ -902,8 +927,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+      - m_Target: {fileID: 440493410}
+        m_TargetAssemblyTypeName: DialogueManager_Scene6, Assembly-CSharp
         m_MethodName: OnChoice3Selected
         m_Mode: 1
         m_Arguments:
@@ -1387,8 +1412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+      - m_Target: {fileID: 440493410}
+        m_TargetAssemblyTypeName: DialogueManager_Scene6, Assembly-CSharp
         m_MethodName: OnChoice1Selected
         m_Mode: 1
         m_Arguments:
@@ -1436,81 +1461,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994495559}
-  m_CullTransparentMesh: 1
---- !u!1 &1120325654
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1120325655}
-  - component: {fileID: 1120325657}
-  - component: {fileID: 1120325656}
-  m_Layer: 5
-  m_Name: GregSprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1120325655
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120325654}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 629628634}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000041962, y: -55.074}
-  m_SizeDelta: {x: 339.7247, y: 448.69}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1120325656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120325654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 848618471336686696, guid: 67fc24e1b2d6d524a9ca5b53ac76ba87, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1120325657
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120325654}
   m_CullTransparentMesh: 1
 --- !u!1 &1174148468
 GameObject:
@@ -1732,8 +1682,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+      - m_Target: {fileID: 440493410}
+        m_TargetAssemblyTypeName: DialogueManager_Scene6, Assembly-CSharp
         m_MethodName: OnChoice2Selected
         m_Mode: 1
         m_Arguments:
@@ -1931,7 +1881,7 @@ GameObject:
   - component: {fileID: 1431450602}
   - component: {fileID: 1431450601}
   m_Layer: 5
-  m_Name: SarahSprite
+  m_Name: CharacterLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1993,81 +1943,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431450599}
-  m_CullTransparentMesh: 1
---- !u!1 &1472718418
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1472718419}
-  - component: {fileID: 1472718421}
-  - component: {fileID: 1472718420}
-  m_Layer: 5
-  m_Name: DeanSprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1472718419
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472718418}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 629628634}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 700, y: -39.655}
-  m_SizeDelta: {x: 421.2243, y: 479.5283}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1472718420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472718418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -8782259705405527966, guid: 2820f6d9f102ecf4db6844ae78ddacf3, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1472718421
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472718418}
   m_CullTransparentMesh: 1
 --- !u!1 &1489806177
 GameObject:
@@ -2508,7 +2383,7 @@ GameObject:
   - component: {fileID: 1695095109}
   - component: {fileID: 1695095108}
   m_Layer: 5
-  m_Name: MayaSprite
+  m_Name: CharacterRight2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2530,7 +2405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -354, y: -55.074}
+  m_AnchoredPosition: {x: 407, y: -55.074}
   m_SizeDelta: {x: 349.3961, y: 448.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1695095108
@@ -3032,5 +2907,5 @@ SceneRoots:
   - {fileID: 1393434275}
   - {fileID: 629628634}
   - {fileID: 2118056877}
-  - {fileID: 395603470}
   - {fileID: 440493411}
+  - {fileID: 343119370}
