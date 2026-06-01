@@ -13,6 +13,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnNewGamePressed()
     {
+        if (StatsManager.Instance != null)
+            StatsManager.Instance.ResetStats();
         
         SceneManager.LoadScene(1);
     }
@@ -27,4 +29,3 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
     }
 }
-    

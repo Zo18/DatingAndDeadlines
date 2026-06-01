@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager_Scene3 : MonoBehaviour
 {
     [Header("UI Elements")]
     public TextMeshProUGUI dialogueText;
@@ -19,8 +19,13 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI choice3Text;
 
     [Header("Characters")]
-    public Image characterLeft;
-    public Image characterRight;
+    public Image characterLeft;       // Sarah (always on left)
+    public Image characterRight;      // Unused in Scene 3 but kept for layout consistency
+
+    [Header("Fade Out")]
+    [Tooltip("A black UI Image covering the whole screen. Starts transparent, fades to opaque at end.")]
+    public Image fadeOverlay;
+    public float fadeDuration = 1.5f;
 
     [Header("Name and Dialogue Box")]
     public RectTransform nameBox;
@@ -30,9 +35,10 @@ public class DialogueManager : MonoBehaviour
     public float textSpeed = 0.03f;
 
     [Header("Next Scene")]
-    [Tooltip("Name of the scene to load after this one ends.")]
-public string nextSceneName = "";
+    [Tooltip("Name of the scene to load after this one ends (e.g. Scene 4 / Lecture).")]
+    public string nextSceneName = "";
 
+    // === Layout values (matched to Scene 1 / Scene 6) ===
     private float mc_NB_Left = 5.734863f;
     private float mc_NB_Top = 2.77824f;
     private float mc_NB_Right = 1535.739f;
@@ -56,49 +62,49 @@ public string nextSceneName = "";
     private int currentLine = 0;
     private bool isTyping = false;
     private bool waitingForChoice = false;
+    private bool isFading = false;
 
+    // === Dialogue lines ===
     private string[] lines = {
-        "Okay... new city, new life, new me.",
-        "No parents. No rules. Just... university.",
-        "Have you unpacked? Don't forget why you're there. Focus on your studies!",
-        "CHOICE_1",
-        "CHLOE_ENTER",
-        "You look new.",
-        "Is it that obvious?",
-        "Relax. Everyone looks confused on day one.",
-        "I'm Chloe.",
-        "Sarah.",
-        "Cute. You seem... quiet.",
-        "CHOICE_2"
+        "First box unpacked. A thousand to go.",                       // 0
+        "Proud of you, sweetheart. Sleep well. Study hard.",    // 1
+        "CHOICE_FEELING",                                              // 2
+        "Anyways, let me get some sleep. Big day tomorrow.",           // 3
+        "FADE_OUT"                                                     // 4
     };
 
     private string[] speakers = {
-        "Sarah (Thinking)",
-        "Sarah (Thinking)",
-        "Mom (Text)",
-        "",
-        "",
-        "Chloe",
-        "Sarah",
-        "Chloe",
-        "Chloe",
-        "Sarah",
-        "Chloe",
-        ""
+        "Sarah (Thinking)",   // 0
+        "Mom (Text)",         // 1
+        "",                   // 2 CHOICE_FEELING
+        "Sarah (Thinking)",   // 3
+        ""                    // 4 FADE_OUT
     };
 
     void Start()
     {
-        Debug.Log("DialogueManager Started!");
+        Debug.Log("DialogueManager_Scene3 Started!");
         choicePanel.SetActive(false);
         nextArrow.SetActive(false);
-        characterRight.gameObject.SetActive(false);
+
+        // Make sure the fade overlay starts fully transparent
+        if (fadeOverlay != null)
+        {
+            Color c = fadeOverlay.color;
+            c.a = 0f;
+            fadeOverlay.color = c;
+            fadeOverlay.gameObject.SetActive(true);
+        }
+
+        // Right-side character not used in this scene
+        if (characterRight != null) characterRight.gameObject.SetActive(false);
+
         ShowLine();
     }
 
     void Update()
     {
-        if (waitingForChoice) return;
+        if (waitingForChoice || isFading) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -118,23 +124,10 @@ public string nextSceneName = "";
 
     void ShowLine()
     {
-        if (lines[currentLine] == "CHOICE_1")
-        {
-            ShowChoice1();
-            return;
-        }
-        if (lines[currentLine] == "CHOICE_2")
-        {
-            ShowChoice2();
-            return;
-        }
-        if (lines[currentLine] == "CHLOE_ENTER")
-        {
-            characterRight.gameObject.SetActive(true);
-            currentLine++;
-            ShowLine();
-            return;
-        }
+        string line = lines[currentLine];
+
+        if (line == "CHOICE_FEELING") { ShowFeelingChoice(); return; }
+        if (line == "FADE_OUT")       { StartCoroutine(FadeOutAndLoadNext()); return; }
 
         StartCoroutine(TypeLine());
     }
@@ -175,18 +168,12 @@ public string nextSceneName = "";
             currentLine++;
             ShowLine();
         }
-        else
-        {
-             if (!string.IsNullOrEmpty(nextSceneName))
-        SceneManager.LoadScene(nextSceneName);  
-        }
     }
 
     void SetMCLayout()
     {
         nameBox.offsetMin = new Vector2(mc_NB_Left, mc_NB_Bottom);
         nameBox.offsetMax = new Vector2(-mc_NB_Right, -mc_NB_Top);
-
         dialogueBox.offsetMin = new Vector2(mc_DB_Left, mc_DB_Bottom);
         dialogueBox.offsetMax = new Vector2(-mc_DB_Right, -mc_DB_Top);
     }
@@ -195,59 +182,51 @@ public string nextSceneName = "";
     {
         nameBox.offsetMin = new Vector2(other_NB_Left, other_NB_Bottom);
         nameBox.offsetMax = new Vector2(-other_NB_Right, -other_NB_Top);
-
         dialogueBox.offsetMin = new Vector2(other_DB_Left, other_DB_Bottom);
         dialogueBox.offsetMax = new Vector2(-other_DB_Right, -other_DB_Top);
     }
 
-    void ShowChoice1()
+    // ============================================================
+    // CHOICE
+    // ============================================================
+    void ShowFeelingChoice()
     {
         waitingForChoice = true;
         nextArrow.SetActive(false);
         choicePanel.SetActive(true);
         nameText.text = "";
-        dialogueText.text = "What do you reply to Mom?";
-        choice1Text.text = "I know, Mom.";
-        choice2Text.text = "I'll be fine.";
-        choice3Text.text = "Ignore message";
+        dialogueText.text = "How are you feeling?";
+        choice1Text.text = "I've got this. Early night, ready for class.";
+        choice2Text.text = "Maybe I'll text Chloe about that party rumour.";
+        choice3Text.text = "I just hope I make real friends here.";
     }
 
-    void ShowChoice2()
-    {
-        waitingForChoice = true;
-        nextArrow.SetActive(false);
-        choicePanel.SetActive(true);
-        nameText.text = "";
-        dialogueText.text = "How do you respond to Chloe?";
-        choice1Text.text = "I'm just observing.";
-        choice2Text.text = "I'm a little nervous.";
-        choice3Text.text = "I don't like people.";
-    }
-
+    // ============================================================
+    // CHOICE BUTTON HANDLERS - HOOK THESE UP IN THE INSPECTOR
+    // ============================================================
     public void OnChoice1Selected()
     {
-        if (currentLine == GetChoiceIndex("CHOICE_1"))
-            StatsManager.Instance.ModifyAcademics(1);
-        else if (currentLine == GetChoiceIndex("CHOICE_2"))
-            StatsManager.Instance.ModifyAcademics(1);
-        AfterChoice();
+        Debug.Log("Scene 3 Choice 1 clicked!");
+        Debug.Log("StatsManager.Instance is null? " + (StatsManager.Instance == null));
+    
+    if (StatsManager.Instance != null)
+    {
+        Debug.Log("Current academics before adding: " + StatsManager.Instance.academics);
     }
+    
+    StatsManager.Instance.ModifyAcademics(1);
+    AfterChoice();
+}
 
     public void OnChoice2Selected()
     {
-        if (currentLine == GetChoiceIndex("CHOICE_1"))
-            StatsManager.Instance.ModifySocial(1);
-        else if (currentLine == GetChoiceIndex("CHOICE_2"))
-            StatsManager.Instance.ModifyLove(1);
+        StatsManager.Instance.ModifySocial(1);
         AfterChoice();
     }
 
     public void OnChoice3Selected()
     {
-        if (currentLine == GetChoiceIndex("CHOICE_1"))
-            StatsManager.Instance.ModifyAcademics(-1);
-        else if (currentLine == GetChoiceIndex("CHOICE_2"))
-            StatsManager.Instance.ModifySocial(-1);
+        StatsManager.Instance.ModifyLove(1);
         AfterChoice();
     }
 
@@ -258,24 +237,46 @@ public string nextSceneName = "";
         currentLine++;
         if (currentLine < lines.Length)
             ShowLine();
-        else
-        {
-         if (!string.IsNullOrEmpty(nextSceneName))
-        SceneManager.LoadScene(nextSceneName);   
-        }
     }
 
-    int GetChoiceIndex(string choiceTag)
+    // ============================================================
+    // FADE OUT
+    // ============================================================
+    IEnumerator FadeOutAndLoadNext()
     {
-        for (int i = 0; i < lines.Length; i++)
-            if (lines[i] == choiceTag) return i;
-        return -1;
+        isFading = true;
+        nextArrow.SetActive(false);
+        nameText.text = "";
+        dialogueText.text = "";
+
+        if (fadeOverlay != null)
+        {
+            float elapsed = 0f;
+            Color c = fadeOverlay.color;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                c.a = Mathf.Clamp01(elapsed / fadeDuration);
+                fadeOverlay.color = c;
+                yield return null;
+            }
+
+            c.a = 1f;
+            fadeOverlay.color = c;
+        }
+
+        // Load the next scene if one is set
+        if (!string.IsNullOrEmpty(nextSceneName))
+            SceneManager.LoadScene(nextSceneName);
     }
+
     /// <summary>
-/// Used by the PauseMenu to save which line was active.
-/// </summary>
-public int GetCurrentLine()
-{
-    return currentLine;
-}
+    /// Used by the PauseMenu to save which line was active.
+    /// </summary>
+    public int GetCurrentLine()
+    {
+        return currentLine;
+    }
+
 }

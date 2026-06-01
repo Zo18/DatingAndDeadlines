@@ -19,9 +19,9 @@ public class DialogueManager_Scene6 : MonoBehaviour
     public TextMeshProUGUI choice3Text;
 
     [Header("Characters")]
-    public Image characterLeft;        // Sarah (always on left)
-    public Image characterRight;       // Slot 1 on right (Chloe / Dean / Greg)
-    public Image characterRight2;      // Slot 2 on right (Maya, only used with Chloe)
+    public Image characterLeft;
+    public Image characterRight;
+    public Image characterRight2;
 
     [Header("Character Sprites")]
     public Sprite chloeSprite;
@@ -30,9 +30,7 @@ public class DialogueManager_Scene6 : MonoBehaviour
     public Sprite gregSprite;
 
     [Header("Slide Animation")]
-    [Tooltip("How far off-screen to the right (in pixels) characters start before sliding in.")]
     public float slideStartOffset = 800f;
-    [Tooltip("How long the slide animation takes, in seconds.")]
     public float slideDuration = 0.5f;
 
     [Header("Name and Dialogue Box")]
@@ -47,9 +45,8 @@ public class DialogueManager_Scene6 : MonoBehaviour
     public int gregThreshold = 3;
 
     [Header("End Of Game")]
-    public string endSceneName = "MainMenu";
+    public string endSceneName = "MainMenuScene";
 
-    // === Layout values (matched to Scene 1) ===
     private float mc_NB_Left = 5.734863f;
     private float mc_NB_Top = 2.77824f;
     private float mc_NB_Right = 1535.739f;
@@ -73,170 +70,161 @@ public class DialogueManager_Scene6 : MonoBehaviour
     private int currentLine = 0;
     private bool isTyping = false;
     private bool waitingForChoice = false;
-    private bool isSliding = false;     // blocks click-to-advance during slide animations
+    private bool isSliding = false;
+    private bool gameEnded = false;
 
-    // Original positions of the right-side characters (captured at Start)
     private Vector2 characterRightHome;
     private Vector2 characterRight2Home;
 
-    // === Dialogue lines with entrance tags ===
     private string[] lines = {
-        // ---- OPENING - Sarah alone thinking ----
-        "Music, lights, so many people, this is going to be a good night!",   // 0
+        "Music, lights, so many people, this is going to be a good night!",
+        "CHLOE_AND_MAYA_ENTER",
+        "You made it. I was about to send a search party.",
+        "I was the search party.",
+        "Okay, big night, our first first-year party!",
+        "Yay!",
+        "I'm so excited!",
+        "CHOICE_ROUTE",
 
-        // ---- Chloe and Maya slide in ----
-        "CHLOE_AND_MAYA_ENTER",                                                // 1
-        "You made it. I was about to send a search party.",                    // 2
-        "I was the search party.",                                             // 3
-        "Okay, big night, our first first-year party!",                        // 4
-        "Yay!",                                                                // 5
-        "I'm so excited!",                                                     // 6
+        "CHLOE_AND_MAYA_EXIT",
+        "DEAN_ENTER",
+        "Ah, I see you came.",
+        "Yes, yes I did indeed.",
+        "So how have your first few days been?",
+        "They've been good, I'm excited to see what this year holds for me.",
+        "Yeah, me too.",
+        "I didn't really expect to see you here, honestly.",
+        "Why's that?",
+        "I dunno. You seem like the type who'd be home with a textbook.",
+        "CHOICE_DEAN",
+        "Okay, fair.",
+        "This is gonna sound weird, but I was kind of hoping you'd show up.",
+        "Yeah?",
+        "Yeah.",
+        "Okay. That's... a lot for a Tuesday.",
+        "Anyway. We should swap numbers. For class stuff. Or... not just class stuff.",
+        "Smooth.",
+        "I've been practising.",
+        "See you in lecture tomorrow?",
+        "See you tomorrow, Dean.",
+        "Day two of uni. So far, so good.",
+        "END_GAME",
 
-        // ---- THE ROUTE CHOICE ----
-        "CHOICE_ROUTE",                                                        // 7
+        "CHLOE_AND_MAYA_EXIT",
+        "GREG_ENTER",
+        "Well, well. Look who showed up.",
+        "Were you waiting for me?",
+        "Maybe. Don't let it go to your head.",
+        "So, surviving first year so far?",
+        "Two days in, I'm undefeated.",
+        "Bold.",
+        "I'm just figuring it out as I go.",
+        "Honestly? Same. I just hide it better.",
+        "Ohhh, you're so mysterious.",
+        "Haha, very funny. But honestly I don't usually do the whole... get-to-know-you thing at parties.",
+        "What do you usually do?",
+        "Avoid it. You're easy to talk to, though.",
+        "CHOICE_GREG",
+        "Don't get used to it.",
+        "Put your number in my phone. In case you wanna keep talking when there's no bass involved.",
+        "Smooth.",
+        "I have my moments.",
+        "Find me in class on Monday?",
+        "Back row?",
+        "Obviously.",
+        "Deal.",
+        "That wasn't what I expected. In a good way.",
+        "END_GAME",
 
-        // ==== DEAN ENDING ====
-        "CHLOE_AND_MAYA_EXIT",                                                 // 8
-        "DEAN_ENTER",                                                          // 9
-        "Ah, I see you came.",                                                 // 10
-        "Yes, yes I did indeed.",                                              // 11
-        "So how have your first few days been?",                              // 12
-        "They've been good, I'm excited to see what this year holds for me.", // 13
-        "Yeah, me too.",                                                       // 14
-        "I didn't really expect to see you here, honestly.",                  // 15
-        "Why's that?",                                                         // 16
-        "I dunno. You seem like the type who'd be home with a textbook.",     // 17
-        "CHOICE_DEAN",                                                         // 18
-        "Okay, fair.",                                                         // 19
-        "This is gonna sound weird, but I was kind of hoping you'd show up.", // 20
-        "Yeah?",                                                               // 21
-        "Yeah.",                                                               // 22
-        "Okay. That's... a lot for a Tuesday.",                               // 23
-        "Anyway. We should swap numbers. For class stuff. Or... not just class stuff.", // 24
-        "Smooth.",                                                             // 25
-        "I've been practising.",                                               // 26
-        "See you in lecture tomorrow?",                                        // 27
-        "See you tomorrow, Dean.",                                             // 28
-        "Day two of uni. So far, so good.",                                    // 29
-        "END_GAME",                                                            // 30
-
-        // ==== GREG ENDING ====
-        "CHLOE_AND_MAYA_EXIT",                                                 // 31
-        "GREG_ENTER",                                                          // 32
-        "Well, well. Look who showed up.",                                     // 33
-        "Were you waiting for me?",                                            // 34
-        "Maybe. Don't let it go to your head.",                                // 35
-        "So, surviving first year so far?",                                    // 36
-        "Two days in, I'm undefeated.",                                        // 37
-        "Bold.",                                                               // 38
-        "I'm just figuring it out as I go.",                                   // 39
-        "Honestly? Same. I just hide it better.",                              // 40
-        "Ohhh, you're so mysterious.",                                         // 41
-        "Haha, very funny. But honestly I don't usually do the whole... get-to-know-you thing at parties.", // 42
-        "What do you usually do?",                                             // 43
-        "Avoid it. You're easy to talk to, though.",                           // 44
-        "CHOICE_GREG",                                                         // 45
-        "Don't get used to it.",                                               // 46
-        "Put your number in my phone. In case you wanna keep talking when there's no bass involved.", // 47
-        "Smooth.",                                                             // 48
-        "I have my moments.",                                                  // 49
-        "Find me in class on Monday?",                                         // 50
-        "Back row?",                                                           // 51
-        "Obviously.",                                                          // 52
-        "Deal.",                                                               // 53
-        "That wasn't what I expected. In a good way.",                         // 54
-        "END_GAME",                                                            // 55
-
-        // ==== SOLO ENDING - Chloe and Maya already on screen from opening ====
-        "Honestly? I just wanna hang out with you two tonight.",               // 56
-        "Aww, babe.",                                                          // 57
-        "That's the best answer.",                                             // 58
-        "Okay but we ARE dancing. Non-negotiable.",                            // 59
-        "I have so many regrettable moves prepared.",                          // 60
-        "What ARE you doing?",                                                 // 61
-        "It's called expression, Sarah.",                                      // 62
-        "It's called being unwell.",                                           // 63
-        "Two days ago I didn't know either of them. Now I'm yelling a chorus at the ceiling with them.", // 64
-        "Okay. Promise me. Every party. The three of us.",                     // 65
-        "Pinky promise.",                                                      // 66
-        "Pinky promise.",                                                      // 67
-        "There's a whole year for everything else. Tonight is just this.",     // 68
-        "Another song! Go go go!",                                             // 69
-        "END_GAME"                                                             // 70
+        "Honestly? I just wanna hang out with you two tonight.",
+        "Aww, babe.",
+        "That's the best answer.",
+        "Okay but we ARE dancing. Non-negotiable.",
+        "I have so many regrettable moves prepared.",
+        "What ARE you doing?",
+        "It's called expression, Sarah.",
+        "It's called being unwell.",
+        "Two days ago I didn't know either of them. Now I'm yelling a chorus at the ceiling with them.",
+        "Okay. Promise me. Every party. The three of us.",
+        "Pinky promise.",
+        "Pinky promise.",
+        "There's a whole year for everything else. Tonight is just this.",
+        "Another song! Go go go!",
+        "END_GAME"
     };
 
     private string[] speakers = {
-        "Sarah (Thinking)",      // 0
-        "",                      // 1 CHLOE_AND_MAYA_ENTER
-        "Chloe",                 // 2
-        "Maya",                  // 3
-        "Chloe",                 // 4
-        "Maya",                  // 5
-        "Sarah",                 // 6
-        "",                      // 7 CHOICE_ROUTE
-        "",                      // 8 CHLOE_AND_MAYA_EXIT
-        "",                      // 9 DEAN_ENTER
-        "Dean",                  // 10
-        "Sarah",                 // 11
-        "Dean",                  // 12
-        "Sarah",                 // 13
-        "Dean",                  // 14
-        "Dean",                  // 15
-        "Sarah",                 // 16
-        "Dean",                  // 17
-        "",                      // 18 CHOICE_DEAN
-        "Dean",                  // 19
-        "Dean",                  // 20
-        "Sarah",                 // 21
-        "Dean",                  // 22
-        "Sarah (Thinking)",      // 23
-        "Dean",                  // 24
-        "Sarah",                 // 25
-        "Dean",                  // 26
-        "Dean",                  // 27
-        "Sarah",                 // 28
-        "Sarah (Thinking)",      // 29
-        "",                      // 30 END_GAME
-        "",                      // 31 CHLOE_AND_MAYA_EXIT
-        "",                      // 32 GREG_ENTER
-        "Greg",                  // 33
-        "Sarah",                 // 34
-        "Greg",                  // 35
-        "Greg",                  // 36
-        "Sarah",                 // 37
-        "Greg",                  // 38
-        "Sarah",                 // 39
-        "Greg",                  // 40
-        "Sarah",                 // 41
-        "Greg",                  // 42
-        "Sarah",                 // 43
-        "Greg",                  // 44
-        "",                      // 45 CHOICE_GREG
-        "Greg",                  // 46
-        "Greg",                  // 47
-        "Sarah",                 // 48
-        "Greg",                  // 49
-        "Greg",                  // 50
-        "Sarah",                 // 51
-        "Greg",                  // 52
-        "Sarah",                 // 53
-        "Sarah (Thinking)",      // 54
-        "",                      // 55 END_GAME
-        "Sarah",                 // 56
-        "Chloe",                 // 57
-        "Maya",                  // 58
-        "Chloe",                 // 59
-        "Maya",                  // 60
-        "Sarah",                 // 61
-        "Maya",                  // 62
-        "Chloe",                 // 63
-        "Sarah (Thinking)",      // 64
-        "Chloe",                 // 65
-        "Maya",                  // 66
-        "Sarah",                 // 67
-        "Sarah (Thinking)",      // 68
-        "Chloe",                 // 69
-        ""                       // 70 END_GAME
+        "Sarah (Thinking)",
+        "",
+        "Chloe",
+        "Maya",
+        "Chloe",
+        "Maya",
+        "Sarah",
+        "",
+        "",
+        "",
+        "Dean",
+        "Sarah",
+        "Dean",
+        "Sarah",
+        "Dean",
+        "Dean",
+        "Sarah",
+        "Dean",
+        "",
+        "Dean",
+        "Dean",
+        "Sarah",
+        "Dean",
+        "Sarah (Thinking)",
+        "Dean",
+        "Sarah",
+        "Dean",
+        "Dean",
+        "Sarah",
+        "Sarah (Thinking)",
+        "",
+        "",
+        "",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "",
+        "Greg",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Greg",
+        "Sarah",
+        "Greg",
+        "Sarah",
+        "Sarah (Thinking)",
+        "",
+        "Sarah",
+        "Chloe",
+        "Maya",
+        "Chloe",
+        "Maya",
+        "Sarah",
+        "Maya",
+        "Chloe",
+        "Sarah (Thinking)",
+        "Chloe",
+        "Maya",
+        "Sarah",
+        "Sarah (Thinking)",
+        "Chloe",
+        ""
     };
 
     void Start()
@@ -245,13 +233,11 @@ public class DialogueManager_Scene6 : MonoBehaviour
         choicePanel.SetActive(false);
         nextArrow.SetActive(false);
 
-        // Cache home positions before hiding (so slide-in knows where to land)
         if (characterRight != null)
             characterRightHome = characterRight.rectTransform.anchoredPosition;
         if (characterRight2 != null)
             characterRight2Home = characterRight2.rectTransform.anchoredPosition;
 
-        // Sarah is alone thinking at the start
         if (characterRight != null) characterRight.gameObject.SetActive(false);
         if (characterRight2 != null) characterRight2.gameObject.SetActive(false);
 
@@ -260,7 +246,7 @@ public class DialogueManager_Scene6 : MonoBehaviour
 
     void Update()
     {
-        if (waitingForChoice || isSliding) return;
+        if (waitingForChoice || isSliding || gameEnded) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -354,9 +340,27 @@ public class DialogueManager_Scene6 : MonoBehaviour
     }
 
     // ============================================================
-    // CHARACTER ENTRANCE / EXIT ANIMATIONS
+    // CHARACTER ANIMATIONS
     // ============================================================
     IEnumerator ChloeAndMayaEnter()
+    {
+        yield return ChloeAndMayaEnterRoutine();
+        AdvancePastTag();
+    }
+
+    IEnumerator ChloeAndMayaExit()
+    {
+        yield return ChloeAndMayaExitRoutine();
+        AdvancePastTag();
+    }
+
+    IEnumerator SingleCharacterEnter(Sprite spriteToShow)
+    {
+        yield return SingleCharacterEnterRoutine(spriteToShow);
+        AdvancePastTag();
+    }
+
+    IEnumerator ChloeAndMayaEnterRoutine()
     {
         isSliding = true;
 
@@ -377,12 +381,10 @@ public class DialogueManager_Scene6 : MonoBehaviour
         }
 
         yield return SlideBothTo(characterRightHome, characterRight2Home);
-
         isSliding = false;
-        AdvancePastTag();
     }
 
-    IEnumerator ChloeAndMayaExit()
+    IEnumerator ChloeAndMayaExitRoutine()
     {
         isSliding = true;
 
@@ -395,10 +397,9 @@ public class DialogueManager_Scene6 : MonoBehaviour
         if (characterRight2 != null) characterRight2.gameObject.SetActive(false);
 
         isSliding = false;
-        AdvancePastTag();
     }
 
-    IEnumerator SingleCharacterEnter(Sprite spriteToShow)
+    IEnumerator SingleCharacterEnterRoutine(Sprite spriteToShow)
     {
         isSliding = true;
 
@@ -413,9 +414,18 @@ public class DialogueManager_Scene6 : MonoBehaviour
         }
 
         yield return SlideOneTo(characterRight, characterRightHome);
-
         isSliding = false;
-        AdvancePastTag();
+    }
+
+    IEnumerator SingleCharacterExitRoutine()
+    {
+        isSliding = true;
+
+        Vector2 offscreen = characterRightHome + new Vector2(slideStartOffset, 0);
+        yield return SlideOneTo(characterRight, offscreen);
+
+        if (characterRight != null) characterRight.gameObject.SetActive(false);
+        isSliding = false;
     }
 
     IEnumerator SlideBothTo(Vector2 target1, Vector2 target2)
@@ -511,16 +521,13 @@ public class DialogueManager_Scene6 : MonoBehaviour
         choice3Text.text = "I think that's the nicest thing you've said all night.";
     }
 
-    // ============================================================
-    // CHOICE BUTTON HANDLERS - HOOK THESE UP IN THE INSPECTOR
-    // ============================================================
     public void OnChoice1Selected()
     {
         string tag = lines[currentLine];
 
         if (tag == "CHOICE_ROUTE")
         {
-            if (StatsManager.Instance.academics >= deanThreshold)
+            if (StatsManager.Instance != null && StatsManager.Instance.academics >= deanThreshold)
                 JumpTo(8);
             else
                 FailedCheck("Dean");
@@ -537,7 +544,7 @@ public class DialogueManager_Scene6 : MonoBehaviour
 
         if (tag == "CHOICE_ROUTE")
         {
-            if (StatsManager.Instance.social >= gregThreshold)
+            if (StatsManager.Instance != null && StatsManager.Instance.social >= gregThreshold)
                 JumpTo(31);
             else
                 FailedCheck("Greg");
@@ -581,29 +588,61 @@ public class DialogueManager_Scene6 : MonoBehaviour
         ShowLine();
     }
 
+    // ============================================================
+    // FAILED STAT CHECK - proper character swap sequence
+    // ============================================================
     void FailedCheck(string characterName)
     {
         choicePanel.SetActive(false);
         waitingForChoice = false;
-        nameText.text = characterName;
-        dialogueText.text = "Hey - Sarah, right? Glad you came. Catch you in class.";
-        SetOtherLayout();
-        nextArrow.SetActive(true);
-        StartCoroutine(WaitForClickThenSolo());
+        StartCoroutine(FailedCheckSequence(characterName));
     }
 
-    IEnumerator WaitForClickThenSolo()
+    IEnumerator FailedCheckSequence(string characterName)
     {
-        yield return null;
+        Sprite spriteToShow = (characterName == "Dean") ? deanSprite : gregSprite;
 
+        // 1. Chloe and Maya slide out
+        yield return ChloeAndMayaExitRoutine();
+
+        // 2. Dean or Greg slides in
+        yield return SingleCharacterEnterRoutine(spriteToShow);
+
+        // 3. They type the brush-off line, wait for player click
+        nameText.text = characterName;
+        SetOtherLayout();
+        dialogueText.text = "";
+        isTyping = true;
+        foreach (char letter in "Hey - Sarah, right? Glad you came. Catch you in class.")
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(textSpeed);
+        }
+        isTyping = false;
+        nextArrow.SetActive(true);
+
+        yield return null;
         while (!Mouse.current.leftButton.wasPressedThisFrame)
             yield return null;
+        nextArrow.SetActive(false);
 
-        JumpTo(56);
+        // 4. Dean or Greg slides out
+        yield return SingleCharacterExitRoutine();
+
+        // 5. Chloe and Maya slide back in
+        yield return ChloeAndMayaEnterRoutine();
+
+        // 6. Roll into the Solo ending (set line directly so we don't kill this coroutine)
+        currentLine = 56;
+        ShowLine();
     }
 
+    // ============================================================
+    // END GAME
+    // ============================================================
     void EndGame()
     {
+        gameEnded = true;
         dialogueText.text = "";
         nameText.text = "";
         nextArrow.SetActive(false);
@@ -615,5 +654,10 @@ public class DialogueManager_Scene6 : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (!string.IsNullOrEmpty(endSceneName))
             SceneManager.LoadScene(endSceneName);
+    }
+
+    public int GetCurrentLine()
+    {
+        return currentLine;
     }
 }
